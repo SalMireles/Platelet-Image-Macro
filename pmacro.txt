@@ -1,0 +1,63 @@
+Sub test_4_29_17()
+	ret = IpCmChannelExtract(CM_RGB, CM_RGB, 1)
+	ret = IpLutShow(1)
+
+	ret = IpSCalShow(1)
+	ret = IpSCalSelect("Spatial Cal_SMM")
+	ret = IpSCalSetLong(SCAL_CURRENT_CAL, SCAL_APPLY, 0)
+	ret = IpSCalShow(0)
+
+	ret = IpLutSetAttr(LUT_GAMMA, 68)
+	ret = IpLutSetAttr(LUT_CONTRAST, 70)
+	ret = IpLutSetAttr(LUT_BRIGHTNESS, 66)
+	ret = IpLutApply()
+
+	ret = IpBlbShow(1)
+	ret = IpBlbSetAttr(BLOB_AUTORANGE, 0)
+	ret = IpBlbSetFilterRange(BLBM_AREA, 294.0, 10000000.0)
+
+
+	ret = IpBlbSetAttr(BLOB_LABELCOLOR,0)
+	ret = IpBlbSetAttr(BLOB_FILLHOLES,1)
+	ret = IpBlbSetAttr(BLOB_MINAREA,1)
+	ret = IpSegShow(1)
+	ret = IpSegShow(1)
+	ret = IpSegShow(1)
+
+	ret = IpSegPreview(CURRENT_C_T)
+	ret = IpSegSetRange(0, 28, 181)
+	ret = IpSegPreview(CURRENT_C_T)
+	ret = IpBlbSetRange(28, 181)
+	ret = IpSegShow(0)
+
+
+	ret = IpBlbCount()
+	ret = IpBlbUpdate(0)
+	ret = IpBlbRemoveHoles()
+
+
+
+	ret = IpBlbUpdate(4)
+	ret = IpBlbSaveData("",  S_HEADER+S_Y_AXIS+S_DDE)
+
+	ret = IpAppSelectDoc(0)
+	ret = IpLutSetAttr(LUT_BRIGHTNESS, 53)
+	ret = IpLutSetAttr(LUT_CONTRAST, 58)
+	ret = IpLutSetAttr(LUT_GAMMA, 100)
+	ret = IpLutApply()
+	ret = IpAppSelectDoc(1)
+	ret = IpBlbSaveOutline("C:\Users\antonio macias\Downloads\Outlines.scl")
+	ret = IpAppSelectDoc(0)
+	ret = IpWsDuplicate()
+	ret = IpBlbLoadOutline("C:\Users\antonio macias\Downloads\Outlines.scl")
+	ret = IpSnap()
+	ret = IpWsSaveEx("C:\Users\antonio macias\Downloads\Image Overlay.tif", "tif",7,24)
+	ret = IpDocClose()
+	ret = IpAppSelectDoc(2)
+	ret = IpDocClose()
+	ret = IpAppSelectDoc(0)
+	ret = IpWsSaveAs("C:\Users\antonio macias\Downloads\Processed Image.tif", "tif")
+	ret = IpDocClose()
+	ret = IpAppSelectDoc(1)
+
+End Sub
